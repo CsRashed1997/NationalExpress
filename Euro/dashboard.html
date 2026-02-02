@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Interactive Transaction Reconciliation Dashboard</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+        <style>
+            .spinner {
+                border: 2px solid rgba(0,0,0,0.1);
+                border-top-color: currentColor;
+                border-radius: 9999px;
+                width: 12px;
+                height: 12px;
+                animation: spin 0.8s linear infinite;
+            }
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        </style>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    animation: {
+                        'shimmer': 'shimmer 2s linear infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .shimmer-bg {
+                background: linear-gradient(to right, #f6f7f8 4%, #edeef1 25%, #f6f7f8 36%);
+                background-size: 1000px 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111418] font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header / Logos -->
+           <!-- Header / Logos -->
+<header class="w-full bg-white border-b border-gray-200">
+  <div class="max-w-[1400px] mx-auto px-6 py-6">
+
+    <div class="flex items-center justify-center gap-8 md:gap-12">
+
+      <!-- National Express -->
+      <div class="flex items-center justify-center">
+        <img
+          src="https://res.cloudinary.com/dfdc3n1sd/image/upload/v1770046705/NE_Loddgo-01_lcgder.png"
+          alt="National Express"
+          class="h-14 md:h-16 object-contain"
+        />
+      </div>
+
+      <!-- Connector -->
+      <div class="flex items-center gap-3 text-gray-400">
+        <span class="h-px w-10 bg-gray-300"></span>
+        <span class="text-xs uppercase tracking-widest font-semibold">
+          Partnered with
+        </span>
+        <span class="h-px w-10 bg-gray-300"></span>
+      </div>
+
+      <!-- Euro Arab Insurance -->
+      <div class="flex items-center justify-center">
+        <img
+          src="https://www.euroarabins.com/wp-content/uploads/2023/06/aulogo-1.png"
+          alt="Euro Arab Insurance"
+          class="h-14 md:h-16 object-contain"
+        />
+      </div>
+
+    </div>
+
+  </div>
+</header>
+
+
+            <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-8">
+                <div class="layout-content-container flex flex-col max-w-[1200px] xl:max-w-[1400px] flex-1 gap-8">
+                    <div class="flex flex-col items-center justify-center gap-3 px-2 text-center pb-4">
+                        <h1 class="text-[#111418] text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em]">
+                            Transaction Reconciliation</h1>
+                        <p class="text-[#617589] text-lg font-normal leading-normal max-w-2xl">Upload your daily Excel
+                            batch files to automatically reconcile transaction records with our dual-ledger system.</p>
+                    </div>
+                    <div class="p-2 relative">
+                        <div
+                            class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-primary border border-blue-100 shadow-sm z-10">
+                            Step 1: Upload Data</div>
+                        <div
+                            class="group relative flex flex-col items-center justify-center w-full h-80 rounded-2xl border-[3px] border-dashed border-primary/40 bg-gradient-to-b from-blue-50/80 to-white hover:bg-blue-50/50 hover:border-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                                <div
+                                    class="mb-6 p-5 rounded-full bg-white shadow-md text-primary group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ring-4 ring-blue-50">
+                                    <span class="material-symbols-outlined text-5xl">upload_file</span>
+                                </div>
+                                <p class="mb-2 text-xl font-bold text-[#111418]">Drop Excel file here</p>
+                                <p class="mb-4 text-base text-[#617589]">or click to browse from your computer</p>
+                                <div class="flex gap-2 mt-2">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-xs text-gray-600 font-mono">.XLSX</span>
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-xs text-gray-600 font-mono">.CSV</span>
+                                </div>
+                                <span class="text-xs text-[#9aa2ac] mt-4">Max file size: 25MB</span>
+                            </div>
+                            <input class="hidden" id="dropzone-file" type="file" />
+                        </div>
+                    </div>
+                    <div class="flex px-2 justify-center -mt-2 mb-4">
+                        <button
+                            class="flex min-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary hover:bg-blue-600 hover:-translate-y-0.5 transition-all duration-200 text-white text-lg font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/30">
+                            <span class="material-symbols-outlined mr-2 text-[24px]">sync</span>
+                            <span class="truncate">Process Reconciliation</span>
+                        </button>
+                        <button id="clearTableBtn"
+                            class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-6 
+                                    bg-gray-200 hover:bg-gray-300 transition-all duration-200 
+                                    text-[#111418] text-sm font-bold shadow">
+                            <span class="material-symbols-outlined mr-2 text-[22px]">delete_sweep</span>
+                            Clear Results
+                        </button>
+
+                    </div>
+                    <div class="flex flex-col gap-4 mt-6">
+                        <div class="flex items-center justify-between px-2">
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em]">
+                                    Processing Results</h2>
+                                <span
+                                    class="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">Live</span>
+                            </div>
+                            <button class="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">history</span>
+                                View All History
+                            </button>
+                        </div>
+                        <div
+                            class="w-full overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm relative">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm text-[#111418]">
+                                    <thead class="bg-[#f9fafb] text-xs uppercase text-[#6b7280]">
+                                        <tr>
+                                            <th class="px-6 py-4 font-semibold tracking-wider" scope="col">Transaction
+                                                ID</th>
+                                             <th class="px-6 py-4">Policy No.</th>
+                                            <th class="px-6 py-4">Customer</th>
+                                            <th class="px-6 py-4">Insurance Type</th>
+                                            <th class="px-6 py-4">Claim No.</th>
+                                            <th class="px-6 py-4">Date</th>
+                                            <th class="px-6 py-4 text-right">Amount</th>
+                                            <th class="px-6 py-4">Payment Status</th>
+                                            <th class="px-6 py-4">PSP Ref</th>
+                                            <th class="px-6 py-4 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#e5e7eb]">
+                                    <!-- JS will inject rows here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div
+                                class="flex items-center justify-between border-t border-[#e5e7eb] bg-[#f9fafb] px-6 py-3">
+                                <div class="text-xs text-[#617589]">
+                                    Showing <span class="font-medium text-[#111418]">1</span> to <span
+                                        class="font-medium text-[#111418]">15</span> of <span
+                                        class="font-medium text-[#111418]">15</span> results
+                                </div>
+                                <div class="flex gap-2">
+                                    <button
+                                        class="rounded border border-[#e5e7eb] bg-white px-3 py-1.5 text-xs font-medium text-[#617589] hover:bg-gray-50 disabled:opacity-50 transition-colors">Previous</button>
+                                    <button
+                                        class="rounded border border-[#e5e7eb] bg-white px-3 py-1.5 text-xs font-medium text-[#617589] hover:bg-gray-50 transition-colors">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+document.addEventListener("click", function (e) {
+
+  // سكّر كل القوائم المفتوحة
+  document.querySelectorAll(".action-menu").forEach(menu => {
+    menu.classList.add("hidden");
+  });
+
+  const btn = e.target.closest(".action-btn");
+  if (!btn) return;
+
+  e.stopPropagation();
+
+  const menu = btn.nextElementSibling;
+  menu.classList.toggle("hidden");
+});
+</script>
+
+<script>
+(() => {
+
+  /* ================== CONFIG ================== */
+
+const statuses = {
+  success: {
+    en: "Success",
+    ar: "Success",
+    badge: "bg-emerald-100/80 text-emerald-800 border-emerald-200",
+    dot: "bg-emerald-600",
+    type: "final"
+  },
+  noPsp: {
+    en: "No response from PSP",
+    ar: "No response from PSP",
+    badge: "bg-red-100/80 text-red-700 border-red-200",
+    dot: "bg-red-600",
+    type: "final"
+  },
+  wrongAmount: {
+    en: "Wrong Amount",
+    ar: "Wrong Amount",
+    badge: "bg-orange-100/80 text-orange-700 border-orange-200",
+    dot: "bg-orange-600",
+    type: "final"
+  },
+  processing: {
+    en: "Processing",
+    ar: "Processing",
+    badge: "bg-blue-50 text-blue-700 border-blue-200",
+    dot: "bg-blue-500",
+    type: "loading"
+  },
+  pending: {
+    en: "Pending Confirmation",
+    ar: "Pending Confirmation",
+    badge: "bg-gray-100 text-gray-700 border-gray-200",
+    dot: "bg-gray-500",
+    type: "loading"
+  }
+};
+
+
+  const processBtn = document.querySelector("button span.material-symbols-outlined")?.closest("button");
+  const clearBtn   = document.getElementById("clearTableBtn");
+  const tbody      = document.querySelector("tbody");
+
+  if (!processBtn || !tbody) return;
+
+  /* ================== HELPERS ================== */
+
+function skeletonRow() {
+  return `
+  <tr class="animate-pulse bg-white">
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-32 rounded"></div></td> <!-- Transaction -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-24 rounded"></div></td> <!-- Policy -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-28 rounded"></div></td> <!-- Customer -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-24 rounded"></div></td> <!-- Insurance -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-24 rounded"></div></td> <!-- Claim -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-20 rounded"></div></td> <!-- Date -->
+    <td class="px-6 py-4 text-right"><div class="h-4 shimmer-bg w-20 ml-auto rounded"></div></td> <!-- Amount -->
+    <td class="px-6 py-4"><div class="h-6 shimmer-bg w-48 rounded-full"></div></td> <!-- Status -->
+    <td class="px-6 py-4"><div class="h-4 shimmer-bg w-24 rounded"></div></td> <!-- PSP -->
+    <td class="px-6 py-4 text-right"><div class="h-4 shimmer-bg w-6 ml-auto rounded"></div></td> <!-- Actions -->
+  </tr>`;
+}
+
+
+  function loadingOnlyRow() {
+    return `
+    <tr class="bg-white animate-pulse">
+      ${'<td class="px-6 py-4"><div class="h-4 shimmer-bg animate-shimmer rounded w-full"></div></td>'.repeat(9)}
+    </tr>`;
+  }
+
+  function dataRow(i, status) {
+
+    const insuranceType = Math.random() > 0.5 ? "Health Insurance" : "Motor Insurance";
+    const amount = (Math.random() * 8000 + 200).toFixed(2);
+
+    return `
+    <tr class="hover:bg-gray-50 transition bg-white group">
+      
+      <!-- Transaction ID -->
+      <td class="px-6 py-4 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-primary">
+            <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+          </div>
+          <span class="font-semibold">TRX-${90000 + i}</span>
+        </div>
+      </td>
+
+      <!-- Policy -->
+      <td class="px-6 py-4 font-semibold">EU-PL-${9000 + i}</td>
+
+      <!-- Customer -->
+      <td class="px-6 py-4">
+        <div class="font-medium">Customer ${i}</div>
+        <div class="text-xs text-[#617589]">National ID • ****${1200 + i}</div>
+      </td>
+
+      <!-- Insurance Type -->
+      <td class="px-6 py-4 text-sm font-medium">${insuranceType}</td>
+
+      <!-- Claim -->
+      <td class="px-6 py-4 font-mono text-sm">CLM-2026-${i}</td>
+
+      <!-- Date -->
+      <td class="px-6 py-4 text-[#617589]">${new Date().toLocaleDateString()}</td>
+
+      <!-- Amount -->
+      <td class="px-6 py-4 text-right font-mono">JOD ${amount}</td>
+
+      <!-- Status -->
+      <td class="px-6 py-4">
+        <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium border ${status.badge}">
+          <span class="mr-1.5 h-1.5 w-1.5 rounded-full ${status.dot}"></span>
+          ${status.en}
+        </span>
+      </td>
+
+      <!-- PSP -->
+      <td class="px-6 py-4 text-xs text-[#617589]">
+        ${status === statuses.success ? "PSP-" + Math.floor(Math.random()*999999) : "-"}
+      </td>
+
+      <!-- Actions -->
+        <td class="px-6 py-4 text-right">
+        <div class="relative inline-block text-left hover:bg-gray-50 hover:shadow-sm transition">
+            
+            <button class="action-btn text-[#9ca3af] hover:text-[#111418] rounded-full p-1 hover:bg-gray-100 transition">
+            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+
+            <div
+            class="action-menu hidden absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-lg border border-gray-200 z-50 overflow-hidden">
+            
+            <button
+                class="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">visibility</span>
+                View Details
+            </button>
+
+            <button
+                class="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">description</span>
+                View Claim
+            </button>
+
+            <button
+                class="w-full px-4 py-2 text-sm text-left hover:bg-red-50 text-red-600 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">report</span>
+                Report Issue
+            </button>
+
+            </div>
+        </div>
+        </td>
+
+
+    </tr>`;
+  }
+
+  function loadingDataRow(i, statusKey) {
+
+  const s = statuses[statusKey];
+  const insuranceType = Math.random() > 0.5 ? "Health Insurance" : "Motor Insurance";
+
+  return `
+  <tr class="bg-white hover:bg-gray-50 transition">
+
+    <td class="px-6 py-4 font-medium">TRX-${90000 + i}</td>
+    <td class="px-6 py-4 font-semibold">EU-PL-${9000 + i}</td>
+
+    <td class="px-6 py-4">
+      <div class="font-medium">Customer ${i}</div>
+      <div class="text-xs text-[#617589]">National ID • ****${1100 + i}</div>
+    </td>
+
+    <td class="px-6 py-4">${insuranceType}</td>
+    <td class="px-6 py-4 font-mono text-sm">CLM-2026-${i}</td>
+    <td class="px-6 py-4 text-[#617589]">${new Date().toLocaleDateString()}</td>
+
+    <td class="px-6 py-4 text-right font-mono text-[#9aa2ac]">—</td>
+
+    <td class="px-6 py-4">
+      <span class="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium border ${s.badge}">
+        <span class="spinner"></span>
+        ${s.en}
+      </span>
+    </td>
+
+    <td class="px-6 py-4 text-xs text-[#9aa2ac]">—</td>
+
+    <td class="px-6 py-4 text-right opacity-40">
+      <span class="material-symbols-outlined text-[20px]">more_vert</span>
+    </td>
+
+  </tr>`;
+}
+
+
+
+  function resetTable() {
+    tbody.innerHTML = "";
+    for (let i = 0; i < 3; i++) {
+      tbody.insertAdjacentHTML("beforeend", skeletonRow());
+    }
+  }
+
+  /* ================== EVENTS ================== */
+
+  clearBtn?.addEventListener("click", resetTable);
+
+processBtn.addEventListener("click", () => {
+
+  resetTable();
+
+  setTimeout(() => {
+    tbody.innerHTML = "";
+
+    // إخفاء ملف الإكسل عند بدء المعالجة
+    if (typeof uploadedFileInfo !== "undefined" && uploadedFileInfo) {
+      uploadedFileInfo.remove();
+      uploadedFileInfo = null;
+    }
+
+    // تنظيف input (لو موجود)
+    if (typeof fileInput !== "undefined" && fileInput) {
+      fileInput.value = "";
+    }
+
+    const totalRows = 16;
+    const loadingIndexes = new Set();
+
+    while (loadingIndexes.size < 2) {
+      loadingIndexes.add(Math.floor(Math.random() * totalRows));
+    }
+
+    for (let i = 1; i <= totalRows; i++) {
+      if (loadingIndexes.has(i - 1)) {
+        const key = Math.random() > 0.5 ? "processing" : "pending";
+        tbody.insertAdjacentHTML("beforeend", loadingDataRow(i, key));
+      } else {
+        const st = Math.random() > 0.3 ? statuses.success : statuses.wrongAmount;
+        tbody.insertAdjacentHTML("beforeend", dataRow(i, st));
+      }
+    }
+
+    // تحويل loading → no PSP
+    setTimeout(() => {
+      document.querySelectorAll(".spinner").forEach(sp => {
+        const row = sp.closest("tr");
+        row.outerHTML = dataRow(
+          Math.floor(Math.random() * 100),
+          statuses.noPsp
+        );
+      });
+    }, 10000);
+
+  }, 1200);
+});
+
+
+
+})();
+</script>
+
+<script>
+  if (localStorage.getItem("demoLoggedIn") !== "true") {
+    window.location.href = "index.html";
+  }
+</script>
+
+
+<script>
+(() => {
+    let uploadedFileInfo = null;
+  const dropzone = document.querySelector('.group.relative');
+  const fileInput = document.getElementById('dropzone-file');
+
+  if (!dropzone || !fileInput) return;
+
+  // فتح file picker عند الكبس
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  // Drag & Drop
+  dropzone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropzone.classList.add('ring-4', 'ring-primary/30');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('ring-4', 'ring-primary/30');
+  });
+
+  dropzone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropzone.classList.remove('ring-4', 'ring-primary/30');
+    handleFile(e.dataTransfer.files[0]);
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+function handleFile(file) {
+  if (!file) return;
+
+  // لو في ملف سابق احذفه
+  uploadedFileInfo?.remove();
+
+  const info = document.createElement('div');
+  info.className =
+    "mt-4 text-sm font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 inline-flex items-center gap-2";
+  info.innerHTML = `
+    <span class="material-symbols-outlined text-base">check_circle</span>
+    ${file.name} (${(file.size / 1024).toFixed(1)} KB) ready
+  `;
+
+  dropzone.querySelector('.flex.flex-col').appendChild(info);
+
+  uploadedFileInfo = info;
+}
+
+
+})();
+</script>
+
+</body>
+
+</html>

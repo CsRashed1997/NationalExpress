@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | FinRecon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100">
+
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+      <img
+        src="https://res.cloudinary.com/dfdc3n1sd/image/upload/v1770046705/NE_Loddgo-01_lcgder.png"
+        class="h-14 object-contain"
+        alt="FinRecon"
+      />
+    </div>
+
+    <h1 class="text-2xl font-bold text-center text-gray-900 mb-2">
+      Sign in
+    </h1>
+    <p class="text-center text-gray-500 mb-6 text-sm">
+      Demo access – enter any credentials
+    </p>
+
+    <!-- Form -->
+    <form id="loginForm" class="space-y-4">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Username
+        </label>
+        <input
+          type="text"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter username"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter password"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition shadow"
+      >
+        Sign In
+      </button>
+
+    </form>
+
+    <div class="text-center text-xs text-gray-400 mt-6">
+      © FinRecon Demo Environment
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Demo login – no validation
+      localStorage.setItem("demoLoggedIn", "true");
+
+      // روح على صفحة النظام
+      window.location.href = "dashboard.html"; // غير الاسم إذا مختلف
+    });
+  </script>
+
+</body>
+</html>
