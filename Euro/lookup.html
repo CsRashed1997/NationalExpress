@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Confirmation | National Express</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#137fec",
+            background: "#f6f7f8"
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-background font-display antialiased">
+
+<header class="bg-white border-b sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-10">
+    <img src="https://res.cloudinary.com/dfdc3n1sd/image/upload/v1770046705/NE_Loddgo-01_lcgder.png" class="h-10 sm:h-12 object-contain">
+    <span class="hidden sm:inline text-gray-400 uppercase text-[10px] tracking-widest font-bold">Partnered with</span>
+    <img src="https://www.euroarabins.com/wp-content/uploads/2023/06/aulogo-1.png" class="h-10 sm:h-12 object-contain">
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+      <h2 class="text-lg sm:text-xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+        <span class="material-symbols-outlined text-primary">description</span>
+        Transaction Details
+      </h2>
+
+      <div class="space-y-4 text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-gray-500 font-medium">Customer Name</label>
+            <input readonly value="Ahmad Khaled" class="w-full mt-1 p-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none">
+          </div>
+          <div>
+            <label class="text-gray-500 font-medium">Policy Number</label>
+            <input readonly value="EU-PL-9002" class="w-full mt-1 p-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-gray-500 font-medium">Insurance Type</label>
+            <input readonly value="Health Insurance" class="w-full mt-1 p-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none">
+          </div>
+          <div>
+            <label class="text-gray-500 font-medium">Claim Number</label>
+            <input readonly value="CLM-2026-22" class="w-full mt-1 p-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none">
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-dashed mt-8 pt-6">
+        <label class="text-gray-500 text-sm font-medium">Base Amount</label>
+        <div class="w-full mt-1 p-4 text-xl font-black rounded-xl bg-blue-50/50 border border-blue-100 text-primary">
+          JOD 1,000.00
+        </div>
+
+        <div class="mt-4 space-y-2">
+          <div class="flex justify-between text-sm text-gray-500">
+            <span>Processing Fee (2%)</span>
+            <span>JOD 20.00</span>
+          </div>
+          <div class="flex justify-between font-black text-xl pt-2 border-t border-gray-100 text-gray-900">
+            <span>Total to Pay</span>
+            <span>JOD 1,020.00</span>
+          </div>
+        </div>
+        
+        <p class="text-[10px] text-gray-400 mt-4 leading-relaxed italic">
+          * Standard Visa/Mastercard processing fees are applied to ensure secure real-time settlement via CliQ.
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 flex flex-col justify-between h-full">
+      <div class="mb-8">
+        <h2 class="text-lg sm:text-xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+          <span class="material-symbols-outlined text-primary">verified_user</span>
+          Payment Verification
+        </h2>
+
+        <div class="bg-gray-50 p-4 rounded-xl mb-6">
+            <label class="text-xs font-bold uppercase tracking-wider text-gray-400">Step 1: Select Method</label>
+            <select id="verifyType" onchange="toggleVerify()"
+                    class="w-full mt-2 p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none">
+              <option value="">-- Choose CliQ Identifier --</option>
+              <option value="alias">Alias Name</option>
+              <option value="mobile">Mobile Number</option>
+            </select>
+        </div>
+
+        <div id="inputContainer" class="space-y-4">
+            <div id="aliasBox" class="hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                <label class="text-xs font-bold text-gray-500">Enter your CliQ Alias</label>
+                <input id="aliasInput" placeholder="e.g. AHMAD-PAY"
+                       class="w-full mt-1 p-3 rounded-lg border border-gray-200 uppercase font-semibold focus:border-primary outline-none">
+            </div>
+
+            <div id="mobileBox" class="hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                <label class="text-xs font-bold text-gray-500">Enter Mobile Number</label>
+                <input id="mobileInput" placeholder="009627XXXXXXXX" type="tel"
+                       class="w-full mt-1 p-3 rounded-lg border border-gray-200 font-semibold focus:border-primary outline-none">
+            </div>
+        </div>
+      </div>
+
+      <button onclick="confirmPayment()"
+              class="w-full h-16 bg-primary text-white rounded-2xl font-black text-lg shadow-lg shadow-primary/30 hover:bg-blue-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        Confirm & Pay Now
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function toggleVerify() {
+  const aliasBox = document.getElementById("aliasBox");
+  const mobileBox = document.getElementById("mobileBox");
+  const type = document.getElementById("verifyType").value;
+
+  aliasBox.classList.add("hidden");
+  mobileBox.classList.add("hidden");
+
+  if (type === "alias") aliasBox.classList.remove("hidden");
+  if (type === "mobile") mobileBox.classList.remove("hidden");
+}
+
+
+async function confirmPayment() {
+  const type = document.getElementById("verifyType").value;
+  const identifier = type === "alias" ? document.getElementById("aliasInput").value : document.getElementById("mobileInput").value;
+
+  if (!type || !identifier) {
+    Swal.fire({
+      icon: "warning",
+      title: "بيانات ناقصة",
+      text: "يرجى اختيار وسيلة التحقق وإدخال البيانات المطلوبة.",
+      confirmButtonColor: "#137fec"
+    });
+    return;
+  }
+
+  // 1. شاشة الانتظار (20 ثانية)
+  let timerInterval;
+  Swal.fire({
+    title: 'جاري التحقق من الدفعة',
+    html: `
+      <div class="mt-4 flex flex-col items-center">
+        <p class="text-sm text-gray-500 mb-4">نحن بانتظار تأكيد العملية عبر تطبيق بنكك...</p>
+        <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 text-xs font-mono text-gray-400">الوقت المتبقي: <b>20</b> ثانية</p>
+      </div>
+    `,
+    timer: 20000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    didOpen: () => {
+      const b = Swal.getHtmlContainer().querySelector('b');
+      timerInterval = setInterval(() => {
+        b.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+      }, 100);
+    }
+  }).then(async (result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      
+      const referenceNumber = "NX-" + Math.floor(Math.random() * 900000 + 100000);
+      
+      // 2. إرسال رسالة الشكر عبر الـ API
+      await sendSuccessSms(referenceNumber);
+
+      // 3. رسالة النجاح النهائية على الشاشة
+      Swal.fire({
+        icon: "success",
+        title: "تمت عملية الدفع",
+        html: `
+          <div class="text-center space-y-3 font-display">
+            <p class="text-gray-600 font-bold">شكراً لإتمامكم عملية الدفع بنجاح.</p>
+            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+              <p class="text-[10px] text-blue-400 uppercase font-black">رقم المرجع (Reference)</p>
+              <p class="text-xl font-black text-primary">${referenceNumber}</p>
+            </div>
+            <p class="text-xs text-gray-500">تم إرسال رسالة نصية بالرقم المرجعي إلى هاتفك.</p>
+          </div>
+        `,
+        confirmButtonText: "إغلاق",
+        confirmButtonColor: "#137fec",
+        customClass: { popup: 'rounded-3xl' }
+      });
+    }
+  });
+}
+
+// دالة مخصصة لإرسال رسالة الشكر بعد الدفع
+async function sendSuccessSms(ref) {
+  const successMessage = `عزيزي العميل،
+شكراً لكم. تم استلام مبلغ الدفعة بنجاح لمطالبة التأمين الخاصة بكم.
+رقم المرجع: ${ref}.
+نتمنى لكم دائماً السلامة.
+فريق الاوروبية للتامين`;
+
+  try {
+    await fetch("https://tunnel.runasp.net/api/Values/sms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        "phoneNumber": "00962792047666", // الرقم المستخدم للتجربة
+        "message": successMessage
+      })
+    });
+    console.log("Success SMS Sent");
+  } catch (error) {
+    console.error("Failed to send success SMS:", error);
+  }
+}
+</script>
+
+</body>
+</html>
